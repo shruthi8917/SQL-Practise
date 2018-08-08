@@ -1,0 +1,117 @@
+SELECT id, title
+ FROM movie
+ WHERE yr=1962
+ 
+ select yr from movie 
+where title='Citizen Kane'
+
+select id, title, yr
+from movie 
+where lower(title) like '%star trek%'
+
+select distinct(a.id) from actor a
+inner join casting c
+on a.id=c.actorid
+where a.name = 'Glenn Close'
+
+select  m.id from
+movie m where m.title ='Casablanca'
+
+select c.name 
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where a.movieid=11768
+
+select c.name 
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where m.title='Alien'
+
+select m.title 
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where c.name='Harrison Ford'
+
+select m.title 
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where c.name='Harrison Ford'
+and a.ord <>1
+
+select m.title , c.name
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where a.ord=1
+and m.yr=1962
+
+select b.yr, b.cnt
+from
+(select m.yr, count(*) as cnt
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where c.name='John Travolta'
+group by yr )b
+where b.cnt > 2;
+
+
+select movie.title,actor.name from casting
+inner join movie 
+on movie.id=casting.movieid
+inner join actor 
+on actor.id=casting.actorid
+where movie.id in(
+select m.id
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where c.name='Julie Andrews'
+group by m.title)
+and casting.ord=1
+
+select distinct c.name
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where a.ord=1
+group by c.name
+having count(a.actorid) >= 30
+order by c.name asc
+
+select distinct c.name
+from movie m
+inner join casting a
+on m.id=a.movieid
+inner join actor c
+on c.id= a.actorid
+where a.ord=1
+group by c.name
+having count(a.actorid) >= 30
+order by c.name asc
+
+SELECT title, COUNT(actorid) FROM casting
+  JOIN movie ON movieid = movie.id
+  WHERE yr = 1978
+  GROUP BY title
+  ORDER BY COUNT(actorid)DESC, title

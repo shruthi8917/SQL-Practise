@@ -1,0 +1,82 @@
+SELECT matchid, player FROM goal 
+  WHERE teamid ='GER'
+
+SELECT id,stadium,team1,team2
+  FROM game 
+where id=1012
+
+select gl.player, gl.teamid, g.stadium, g.mdate
+from game g
+inner join goal gl
+on g.id=gl.matchid
+where teamid='GER' 
+
+
+select g.team1, g.team2, gl.player
+from game g
+inner join goal gl
+on g.id=gl.matchid
+where gl.player like 'Mario%'
+
+
+select gl.player,gl.teamid,e.coach, gl.gtime
+from eteam e
+inner join goal gl
+on e.id=gl.teamid
+and gl.gtime <=10
+
+select g.mdate,e.teamname from
+game g
+inner join eteam e
+on g.team1=e.id
+and e.coach = 'Fernando Santos'
+
+select gl.player 
+from game g
+inner join goal gl
+on g.id=gl.matchid
+and g.stadium = 'National Stadium, Warsaw'
+
+select distinct gl.player from 
+game g
+inner join goal gl
+on g.id=gl.matchid
+and (g.team2 = 'GER' or g.team1 ='GER')
+and gl.teamid <> 'GER'
+
+select e.teamname, count(*) as cnt_goals
+from game g
+inner join goal gl
+on g.id = gl.matchid
+inner join eteam e
+on e.id =gl.teamid
+group by e.teamname
+
+
+select g.stadium, count(gl.matchid)
+from game g
+inner join goal gl
+on g.id=gl.matchid
+group by g.stadium
+
+SELECT matchid,mdate, count(matchid)
+  FROM game JOIN goal ON matchid = id 
+ WHERE (team1 = 'POL' OR team2 = 'POL')
+group by matchid,mdate
+
+select g.id, g.mdate, count(*)
+from game g
+inenr join goal gl
+on g.id= gl.matchid
+and gl.teamid='GER'
+group by gmatchid,g.mdate
+
+SELECT mdate,
+  team1, sum(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) as score1,
+  team2, sum(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) as score2
+  FROM game left JOIN goal ON matchid = id
+group by mdate, team1,team2
+ORDER BY mdate, matchid, team1, team2
+
+
+
